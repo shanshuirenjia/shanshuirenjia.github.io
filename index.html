@@ -1,34 +1,51 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+  <meta charset="utf-8">
+  <meta name="description" content="Create Markdown documents using JavaScript and Bootstrap themes" />
+
 </head>
-  <body>
-    <div id="preview"> </div>
-    <script src="lib/markdown.min.js"></script>
-    <script>
-      var $ = function (id) { return document.getElementById(id); };
-      var loadMD = function (mdurl)
-      {
-        var xmlhttp;
-        if (window.XMLHttpRequest)
-          {// code for IE7+, Firefox, Chrome, Opera, Safari
-          xmlhttp=new XMLHttpRequest();
-          }
-        else
-          {// code for IE6, IE5
-          xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-          }
-        xmlhttp.onreadystatechange=function()
-          {
-          if (xmlhttp.readyState==4 && xmlhttp.status==200)
-            {
-              $("preview").innerHTML = markdown.toHTML(xmlhttp.responseText);
-            }
-          }
-          xmlhttp.open("GET",mdurl,true);
-          xmlhttp.send();
-      }
-      loadMD("http://shanshuirenjia.org/announcement.md")
-    </script>
-  </body>
+
+<body>
+  <textarea>
+    aaaa
+</textarea>
+  <script src="src/jquery.js"></script>
+  <script>
+    var data = $.ajax({ url: "http://shanshuirenjia.org/announcement.md", async: false }).responseText;
+    document.getElementsByTagName('textarea')[0].innerHTML = data;
+    console.log(data);
+  </script>
+  <script>
+    window.onload = function () {
+      //内容收展
+      var screenWidth = document.getElementById('content').clientWidth;
+      var maxwidth = parseInt(screenWidth / 4.1);
+      var isExpand = false;
+      var btnStr = '展开';
+      var that = $(this);
+      $('p').each(function () {
+        if ($(this).text().length > maxwidth) {
+          $(this).text($(this).text().substring(0, maxwidth));
+          $(this).text($(this).text() + '...');
+        }
+      });
+      // var btn = $('<div>' + btnStr + '</div>').click(function (e) {
+      //   var target = $(this).prev();
+      //   if (isExpand) {
+      //     target.text(summary + '...');
+      //     $(this).text('展开');
+      //   } else {
+      //     target.text(content);
+      //     $(this).text('关闭');
+      //   }
+      //   isExpand = !isExpand;
+      // }).insertAfter(that).addClass('toggle-btn');
+    }
+  </script>
+
+  <script src="src/strapdown.js"></script>
+</body>
+
 </html>
